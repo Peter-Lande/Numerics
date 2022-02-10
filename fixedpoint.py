@@ -1,4 +1,3 @@
-#
 import numpy as np
 import argparse
 import sys
@@ -8,7 +7,7 @@ def fixed_point(function, initial, error, iteration=0, previous_error=sys.maxsiz
     next_guess = (function(initial))
     iteration_error = np.abs((next_guess-initial))
     iteration += 1
-    print("%13d %13.6f %13.6f %13.6f" %
+    print("%13d %13.9f %13.9f %13.9f" %
           (iteration, initial, next_guess, iteration_error))
     if iteration_error < error:
         return next_guess
@@ -36,6 +35,6 @@ if __name__ == "__main__":
     try:
         print("%13s %13s %13s %13s" % ("Iteration", "p", "f(p)", "tolerance"))
         p = fixed_point(f, args.initial, args.tolerance)
-        print("Found a root at p= %11.6f" % p)
+        print("Found a root at p= %13.9f" % p)
     except ValueError as error:
         print(str(error))
