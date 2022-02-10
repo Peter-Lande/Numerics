@@ -6,3 +6,6 @@ pyvenv.cfg
 Scripts/
 Lib/
 Include/
+bin/
+.DS_Store
+.vscode/
