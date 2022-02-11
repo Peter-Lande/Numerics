@@ -13,8 +13,6 @@ def newton_raphson(function, derivative, initial, error, iteration=0, previous_e
           (iteration, initial, current_value, slope, iteration_error))
     if iteration_error < error:
         return next_guess
-    # if iteration_error >= previous_error:
-    #     raise ValueError("Solution diverges.")
     if not (type(next_guess) == np.float64):
         raise ValueError("Solution is indeterminate.")
     return newton_raphson(function, derivative, next_guess, error, iteration, iteration_error)
