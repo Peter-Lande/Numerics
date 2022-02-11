@@ -1,11 +1,11 @@
 import argparse
 import numpy as np
-
+import sys
 # The numpy is used for functions like sqrt, sine, cosine.
 # argparse is for making it easy to run this program in the command line
 
 
-def bisection(function, initial, final, tolerance, iteration=0):
+def bisection(function, initial, final, tolerance=0.0001, iteration=0, max_iteration=sys.maxsize):
     p = (initial+final)/2
     pResult = function(p)
     initialResult = function(initial)
@@ -16,7 +16,7 @@ def bisection(function, initial, final, tolerance, iteration=0):
           (iteration, initial, final, p, pResult, iterationTolerance))
     if initialResult * finalResult > 0:
         raise ValueError
-    elif iterationTolerance < tolerance:
+    elif (iterationTolerance <= tolerance) or (max_iteration <= iteration):
         return p
     elif pResult == 0:
         return p

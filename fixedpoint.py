@@ -3,13 +3,13 @@ import argparse
 import sys
 
 
-def fixed_point(function, initial, error, iteration=0, previous_error=sys.maxsize):
+def fixed_point(function, initial, error=0.0001, iteration=0, previous_error=sys.maxsize, max_iteration=sys.maxsize):
     next_guess = (function(initial))
     iteration_error = np.abs((next_guess-initial))
     iteration += 1
     print("%13d %13.9f %13.9f %13.9f" %
           (iteration, initial, next_guess, iteration_error))
-    if iteration_error < error:
+    if (iteration_error <= error) or (max_iteration <= iteration):
         return next_guess
     if iteration_error >= previous_error:
         raise ValueError("Solution diverges.")
