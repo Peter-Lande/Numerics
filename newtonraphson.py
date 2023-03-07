@@ -1,12 +1,21 @@
 import numpy as np
 import argparse
+import sys
 
 
-def newton_raphson(function, derivative, initial, error):
-    next_guess = initial - (function(initial))/(derivative(initial))
-    if np.abs((next_guess-initial)/initial) < error:
+def newton_raphson(function, derivative, initial, error=0.0001, iteration=0, previous_error=sys.maxsize, max_iteration=sys.maxsize):
+    slope = derivative(initial)
+    current_value = function(initial)
+    next_guess = initial - ((current_value)/(slope))
+    iteration_error = np.abs((next_guess-initial))
+    iteration += 1
+    print("%13d %13.9f %13.9f %13.9f %13.9f" %
+          (iteration, initial, current_value, slope, iteration_error))
+    if iteration_error < error or (max_iteration <= iteration):
         return next_guess
-    newton_raphson(function, derivative, initial, error)
+    if not (type(next_guess) == np.float64):
+        raise ValueError("Solution is indeterminate.")
+    return newton_raphson(function, derivative, next_guess, error, iteration, iteration_error)
 
 
 if __name__ == "__main__":
@@ -30,7 +39,9 @@ if __name__ == "__main__":
     except NameError:
         print("f'(x) does not follow python syntax.")
     try:
+        print("%13s %13s %13s %13s %13s" %
+              ("Iteration", "p", "f(p)", "f'(p)", "tolerance"))
         p = newton_raphson(f, derivative, args.initial, args.tolerance)
-        print("Found a root at p= %11.6f" % p)
-    except ValueError:
-        print("No root in given bound.")
+        print("Found a root at p= %13.9f" % p)
+    except ValueError as error:
+        print(str(error))
